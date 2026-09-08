@@ -1,0 +1,109 @@
+/* The app's own faces, served from this origin.
+   Self-hosted rather than pulled from Google Fonts, and that is a privacy decision rather than a
+   performance one: a stylesheet link to fonts.googleapis.com makes every visitor's browser call
+   Google and hand over an IP address, on the site whose entire purpose is a policy saying nothing
+   about them is collected. A German court has held that exact arrangement to be a GDPR violation
+   (LG Munchen I, 3 O 17493/20), and Germany is this app's first market.
+   All three are SIL Open Font Licence 1.1 — see fonts/LICENCE.md, which travels with them. */
+@font-face {
+    font-family: "Caprasimo";
+    src: url("fonts/caprasimo_regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Figtree";
+    src: url("fonts/figtree_regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Figtree";
+    src: url("fonts/figtree_semibold.ttf") format("truetype");
+    font-weight: 600;
+    font-display: swap;
+}
+
+/* The app's own tokens, copied from core/ui/theme/HaloColors.kt.
+   Copied rather than generated: a stylesheet is not worth a build step, and these five values have
+   not moved since the design settled. If the palette is ever reworked, this is the file to follow. */
+:root {
+    --bg: #F5EAD8;
+    --surface: #EBDDC5;
+    --text: #201E1D;
+    --muted: #645C50;
+    --line: #DCD3C4;
+    --accent: #C67139;
+    --accent-deep: #8C491A;
+    --sage: #7A8A5E;
+    --alarm: #8F2417;
+    --measure: 34rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #201E1D;
+        --surface: #2E2B25;
+        --text: #F9F4ED;
+        --muted: #C0B6A5;
+        --line: #474238;
+        --accent: #F6A06B;
+        --accent-deep: #FFC6A5;
+    }
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 400 1.0625rem/1.65 "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+main { max-width: var(--measure); margin: 0 auto; padding: 0 1.5rem 5rem; }
+
+h1, h2, h3 { font-family: "Caprasimo", Georgia, "Times New Roman", serif; font-weight: 400; letter-spacing: -0.01em; }
+
+a { color: var(--accent-deep); }
+
+/* ---- landing ---------------------------------------------------------------------------- */
+
+.hero { text-align: center; padding: 4.5rem 1.5rem 2.5rem; }
+.hero img.mark { width: 96px; height: 96px; border-radius: 22px; display: block; margin: 0 auto 1.5rem; }
+.hero h1 { font-size: clamp(2.4rem, 8vw, 3.4rem); margin: 0 0 0.75rem; line-height: 1.05; }
+.hero p.lede { font-size: 1.2rem; color: var(--muted); margin: 0 auto; max-width: 26rem; }
+
+.badge { display: inline-block; margin-top: 2rem; }
+.badge img { height: 60px; }
+
+/* The four answers, in the app's colours — with a word on each, never colour alone. */
+.verdicts { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: 0.75rem; margin: 3.5rem 0; }
+.verdict { border-radius: 14px; padding: 1rem 0.75rem; text-align: center; font-weight: 600; font-size: 0.95rem; }
+.verdict.fits   { background: #E1EECC; color: #3D472B; }
+.verdict.check  { background: #FFE1D0; color: #643312; }
+.verdict.avoid  { background: #F3D6D2; color: var(--alarm); }
+.verdict.unsure { background: var(--surface); color: var(--muted); }
+
+.shots { display: flex; gap: 1rem; overflow-x: auto; padding: 0 0 1rem; margin: 0 -1.5rem; scroll-snap-type: x mandatory; }
+.shots img { width: 62%; max-width: 260px; flex: 0 0 auto; border-radius: 18px; border: 1px solid var(--line); scroll-snap-align: center; }
+.shots::before, .shots::after { content: ""; flex: 0 0 1.5rem; }
+
+section.copy h2 { font-size: 1.5rem; margin: 3rem 0 0.5rem; }
+section.copy p { color: var(--muted); }
+section.copy strong { color: var(--text); font-weight: 600; }
+
+footer { border-top: 1px solid var(--line); margin-top: 4rem; padding-top: 1.5rem; color: var(--muted); font-size: 0.95rem; display: flex; gap: 1.25rem; flex-wrap: wrap; }
+
+/* ---- the privacy document --------------------------------------------------------------- */
+
+body.doc main { padding-top: 1rem; }
+.doc-head { border-bottom: 1px solid var(--line); }
+.doc-head .back { display: block; max-width: var(--measure); margin: 0 auto; padding: 1.25rem 1.5rem; font-weight: 600; text-decoration: none; }
+body.doc section { padding: 2.5rem 0; }
+body.doc section + section { border-top: 1px solid var(--line); }
+body.doc h1 { font-size: 2rem; margin: 0 0 1.5rem; }
+body.doc h2 { font-size: 1.25rem; margin: 2rem 0 0.5rem; }
+body.doc li { margin-bottom: 0.6rem; }
+body.doc .contact { color: var(--muted); font-size: 0.95rem; margin-top: 2rem; }
