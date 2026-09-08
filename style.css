@@ -27,6 +27,8 @@
 /* The app's tokens, from core/ui/theme/HaloColors.kt. Copied rather than generated: a stylesheet is
    not worth a build step, and these have not moved since the design settled. */
 :root {
+    color-scheme: light dark;
+
     --bg: #F5EAD8;
     --surface: #EBDDC5;
     --raised: #F9F4ED;
@@ -35,16 +37,14 @@
     --line: #DCD3C4;
     --accent: #C67139;
     --accent-deep: #8C491A;
-    --accent-soft: #FFE1D0;
     --sage: #7A8A5E;
-    --sage-soft: #E1EECC;
-    --sage-ink: #3D472B;
     --alarm: #8F2417;
-    --alarm-soft: #F3D9D4;
+    /* The bezel's edge. Invisible on a light ground; in dark it is what keeps a #211f1c frame
+       from vanishing into a #2E2B25 page at 1.2:1. */
+    --bezel-rim: rgba(32, 30, 29, 0);
 
     --measure: 36rem;
     --page: 68rem;
-    --radius: 20px;
     /* One phone size everywhere. A hero frame a little larger than the ones below reads as an
        inconsistency rather than as emphasis, because every screenshot in them is the same shape. */
     --phone: 330px;
@@ -54,18 +54,18 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg: #1B1917;
-        --surface: #2E2B25;
-        --raised: #272420;
-        --text: #F9F4ED;
-        --muted: #B7AD9C;
-        --line: #3B362E;
-        --accent: #F6A06B;
-        --accent-deep: #FFC6A5;
-        --accent-soft: #402310;
-        --sage-soft: #2A331E;
-        --sage-ink: #D5E3BC;
-        --alarm-soft: #3A1512;
+        /* The app's own dark scheme, not an invention. Every value below is a HaloColors ramp
+           entry bound by HaloDarkColorScheme; the previous set included a ground darker than
+           `Organic.text`, which is the darkest colour the design system contains. */
+        --bg: #2E2B25;          /* neutral900 — background */
+        --surface: #474238;     /* neutral800 — surfaceVariant */
+        --raised: #474238;      /* neutral800 — surfaceContainer */
+        --text: #F9F4ED;        /* neutral100 — onSurface */
+        --muted: #DCD3C4;       /* neutral300 — onSurfaceVariant */
+        --line: #82796A;        /* neutral600 — outline */
+        --accent: #F6A06B;      /* accent400  — primary */
+        --accent-deep: #FFC6A5; /* accent300 */
+        --bezel-rim: rgba(249, 244, 237, .16);
         --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 12px 34px -12px rgba(0, 0, 0, .6);
         --shadow-lift: 0 2px 4px rgba(0, 0, 0, .35), 0 30px 60px -22px rgba(0, 0, 0, .75);
     }
@@ -73,7 +73,7 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 78px; }
 
 body {
     margin: 0;
@@ -97,6 +97,8 @@ p { margin: 0 0 1.1rem; }
 
 a { color: var(--accent-deep); text-underline-offset: 3px; }
 
+:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 3px; border-radius: 6px; }
+
 .wrap { max-width: var(--page); margin: 0 auto; padding: 0 1.5rem; }
 
 /* ---- header ------------------------------------------------------------------------------ */
@@ -106,16 +108,29 @@ a { color: var(--accent-deep); text-underline-offset: 3px; }
     top: 0;
     z-index: 10;
     backdrop-filter: saturate(180%) blur(14px);
-    background: color-mix(in srgb, var(--bg) 82%, transparent);
-    border-bottom: 1px solid transparent;
-    transition: border-color .2s ease;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    border-bottom: 1px solid var(--line);
 }
-.top .wrap { display: flex; align-items: center; gap: .7rem; height: 62px; }
+.top .wrap { display: flex; align-items: center; gap: .7rem; min-height: 62px; }
 .top img { width: 30px; height: 30px; border-radius: 8px; }
 .top .name { font-family: "Caprasimo", Georgia, serif; font-size: 1.15rem; }
 .top nav { margin-left: auto; display: flex; gap: 1.4rem; font-size: .95rem; }
 .top nav a { color: var(--muted); text-decoration: none; }
 .top nav a:hover { color: var(--text); }
+
+/* A blurred bar is a nicety; a legible one is not. Without backdrop-filter the translucent ground
+   would let a screenshot scroll under the nav at whatever contrast it happened to have. */
+@supports not (backdrop-filter: blur(1px)) {
+    .top { background: var(--bg); }
+}
+
+@media (max-width: 26rem) {
+    .top .wrap { gap: .5rem; padding-inline: 1rem; }
+    .top .name { font-size: 1rem; }
+    .top nav { gap: 1rem; font-size: .875rem; }
+    /* The page below is one scroll. The anchor is a convenience; the policy link is not. */
+    .top nav a[href="#how"] { display: none; }
+}
 
 /* ---- hero -------------------------------------------------------------------------------- */
 
@@ -134,12 +149,13 @@ a { color: var(--accent-deep); text-underline-offset: 3px; }
 .hero::before {
     content: "";
     position: absolute;
-    inset: -30% 50% auto;
-    translate: 50% 0;
+    /* top / right / bottom / left — one horizontal anchor only, or `right` is dropped. */
+    inset: -30% auto auto 50%;
+    translate: -50% 0;
     width: min(120vw, 1100px);
     aspect-ratio: 1;
     background: radial-gradient(circle at 50% 40%,
-        color-mix(in srgb, var(--accent) 26%, transparent) 0%,
+        color-mix(in srgb, var(--accent) 18%, transparent) 0%,
         transparent 62%);
     pointer-events: none;
 }
@@ -176,53 +192,49 @@ a { color: var(--accent-deep); text-underline-offset: 3px; }
     width: 100%;
     max-width: var(--phone);
     aspect-ratio: 1080 / 1920;
-    border-radius: 34px;
+    border-radius: 36px;   /* HaloShapes.extraLarge */
     padding: 7px;
     background: linear-gradient(160deg, #4a463f, #211f1c 55%);
-    box-shadow: var(--shadow-lift);
+    box-shadow: inset 0 0 0 1px var(--bezel-rim), var(--shadow-lift);
     flex: 0 0 auto;
 }
 .phone img {
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: top center;
-    border-radius: 28px;
+    border-radius: 28px;   /* extraLarge minus the bezel — concentric */
     display: block;
 }
-/* The speaker slot. Small, dim, and enough to read the shape as a phone. */
-.phone::after {
-    content: "";
-    position: absolute;
-    top: 15px; left: 50%; translate: -50% 0;
-    width: 58px; height: 5px; border-radius: 3px;
-    background: rgba(0, 0, 0, .45);
-}
-
 .hero .phone { margin: clamp(2.5rem, 6vw, 4rem) auto 0; }
 
 /* ---- the four answers -------------------------------------------------------------------- */
 
-/* A line of text, not a row of coloured cards. Four filled rectangles competing with a screenshot
-   of the real thing is the website inventing a worse version of the app's own design — and the
-   phones below already show two of these answers rendered properly. */
+/* The app's own verdict pills — VerdictPalette.container over .onContainer, the same pair the
+   reason chips use inside the screenshots below. Deliberately fixed in both schemes, because
+   VerdictPalettes is shared across themes on purpose: a verdict may not change colour with the
+   time of day. The previous version tinted four dots with `--sage`, `--accent` and `--alarm`,
+   which are Material's secondary, primary and error roles rather than verdict colours — and
+   `--alarm` was never redefined for dark, leaving "Do not eat" at 2.03:1 against the ground. The
+   one answer meaning *put it down* was the one a dark-mode reader could not see. */
 .answers {
+    list-style: none;
+    padding: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: .5rem 1.4rem;
+    gap: .6rem;
     margin: clamp(2.5rem, 6vw, 3.5rem) auto 0;
-    color: var(--muted);
+}
+.answers li {
+    padding: .5rem 1.15rem;
+    border-radius: 999px;      /* HaloShape.pill */
     font-size: 1rem;
+    font-weight: 600;
 }
-.answers span { display: inline-flex; align-items: center; gap: .55rem; }
-.answers i {
-    width: 9px; height: 9px; border-radius: 50%; display: inline-block;
-    /* The dot is decoration; the word beside it carries the meaning, as it does in the app. */
-}
-.answers .fits i   { background: var(--sage); }
-.answers .check i  { background: var(--accent); }
-.answers .avoid i  { background: var(--alarm); }
-.answers .unsure i { background: var(--muted); }
+.answers .fits   { background: #E1EECC; color: #272E1B; }   /* sage200   / sage900   */
+.answers .check  { background: #FFE1D0; color: #402310; }   /* accent200 / accent900 */
+.answers .avoid  { background: #FFC6A5; color: #402310; }   /* accent300 / accent900 */
+.answers .unsure { background: #DCD3C4; color: #2E2B25; }   /* neutral300 / neutral900 */
 
 /* ---- alternating feature rows ------------------------------------------------------------ */
 
@@ -239,8 +251,11 @@ a { color: var(--accent-deep); text-underline-offset: 3px; }
 .feature p { color: var(--muted); max-width: var(--measure); }
 .feature strong { color: var(--text); font-weight: 600; }
 
-@media (min-width: 46rem) {
-    .feature { grid-template-columns: 1fr 1fr; }
+/* 60rem, not 46. At 46rem a 330px phone sat beside a 340px text column — two narrow strips on
+   every portrait tablet. The phone takes its own width and the prose takes the rest. */
+@media (min-width: 60rem) {
+    .feature { grid-template-columns: minmax(0, 1fr) var(--phone); }
+    .feature.flip { grid-template-columns: var(--phone) minmax(0, 1fr); }
     .feature.flip .shot { order: -1; }
 }
 

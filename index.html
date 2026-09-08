@@ -18,7 +18,7 @@
 
 <header class="top">
   <div class="wrap">
-    <img src="icon-512.png" alt="">
+    <img src="icon-512.png" width="512" height="512" alt="">
     <span class="name">Honest Food</span>
     <nav>
       <a href="#how">How it works</a>
@@ -29,7 +29,7 @@
 
 <section class="hero">
   <div class="wrap">
-    <img class="mark" src="icon-512.png" alt="">
+    <img class="mark" src="icon-512.png" width="512" height="512" alt="">
     <h1>Honest&nbsp;Food</h1>
     <p class="lede">Scan a barcode. Get an answer about your allergies you can actually check.</p>
 
@@ -44,15 +44,15 @@
     <!-- Named in a line rather than drawn as four coloured cards. The phone underneath already
          shows one of these rendered by the app itself, and a flat imitation beside it only looks
          like a worse version of the thing the page is advertising. -->
-    <p class="answers">
-      <span class="fits"><i></i>Safe to eat</span>
-      <span class="check"><i></i>Take a closer look</span>
-      <span class="avoid"><i></i>Do not eat</span>
-      <span class="unsure"><i></i>Can&rsquo;t say yet</span>
-    </p>
+    <ul class="answers">
+      <li class="fits">Safe to eat</li>
+      <li class="check">Take a closer look</li>
+      <li class="avoid">Do not eat</li>
+      <li class="unsure">Can&rsquo;t say yet</li>
+    </ul>
 
     <div class="phone">
-      <img src="shots/02-avoid.png" alt="A verdict reading &ldquo;Do not eat&rdquo;, with the reasons underneath: contains your allergen, contains gelatine, may contain traces.">
+      <img width="1080" height="1920" fetchpriority="high" src="shots/02-avoid.png" alt="A verdict reading &ldquo;Do not eat&rdquo;, with the reasons underneath: contains your allergen, contains gelatine, may contain traces.">
     </div>
   </div>
 </section>
@@ -69,7 +69,7 @@
     </div>
     <div class="shot">
       <div class="phone">
-        <img src="shots/03-fits.png" alt="A verdict reading &ldquo;Safe to eat&rdquo; for a barista oat drink, with its nutrition underneath.">
+        <img width="1080" height="1920" loading="lazy" decoding="async" src="shots/03-fits.png" alt="A verdict reading &ldquo;Safe to eat&rdquo; for a barista oat drink, with its nutrition underneath.">
       </div>
     </div>
   </section>
@@ -85,7 +85,7 @@
     </div>
     <div class="shot">
       <div class="phone">
-        <img src="shots/05-rules.png" alt="The rules screen, with allergies set to strict or normal and diets listed underneath.">
+        <img width="1080" height="1920" loading="lazy" decoding="async" src="shots/05-rules.png" alt="The rules screen: a list called Me with a button to add someone, diets including vegetarian switched on, and allergies with gluten set to Strict out of Not mine, Normal and Strict.">
       </div>
     </div>
   </section>
@@ -98,10 +98,13 @@
       <p>Scanning asks <a href="https://world.openfoodfacts.org/">Open Food Facts</a> about the
          barcode &mdash; <strong>the number, not who you are</strong>. Photos of ingredient lists
          are read on the device, and go nowhere unless you ask them to.</p>
+      <p>There is a usage counter &mdash; which screens you open, whether a scan found an answer
+         &mdash; and it is <strong>off until you say yes</strong>. It never carries a barcode, a
+         product name, or which allergy you set.</p>
     </div>
     <div class="shot">
       <div class="phone">
-        <img src="shots/01-scan.png" alt="The scan screen, aimed at a barcode, showing how many rules are armed.">
+        <img width="1080" height="1920" loading="lazy" decoding="async" src="shots/01-scan.png" alt="The scan screen: an empty viewfinder over a dark camera view, the hint &ldquo;Point at a barcode&rdquo;, &ldquo;3 rules armed&rdquo; in the corner, and buttons for the torch and for typing a code by hand.">
       </div>
     </div>
   </section>
