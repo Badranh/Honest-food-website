@@ -4,6 +4,9 @@ The one-page site for **Honest Food**, and the privacy policy Google Play links 
 
 Served by GitHub Pages from `main`, at the domain in `CNAME`.
 
+English leads; the German text follows on the same page. One URL has to serve both, because a
+static host cannot negotiate a language and German is the app's first market.
+
 ## privacy.html is generated — do not edit it here
 
 It is rendered from `core/ui/.../LegalText.kt` in the app repository, which is the same source the
