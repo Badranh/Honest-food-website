@@ -16,71 +16,115 @@
 </head>
 <body>
 
-<header class="hero">
-  <img class="mark" src="icon-512.png" alt="">
-  <h1>Honest&nbsp;Food</h1>
-  <p class="lede">Scan a barcode. Get an answer about your allergies you can actually check.</p>
-
-  <a class="badge" href="https://play.google.com/store/apps/details?id=app.honestfood.android">
-    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-         alt="Get it on Google Play">
-  </a>
+<header class="top">
+  <div class="wrap">
+    <img src="icon-512.png" alt="">
+    <span class="name">Honest Food</span>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </div>
 </header>
 
-<main>
+<section class="hero">
+  <div class="wrap">
+    <img class="mark" src="icon-512.png" alt="">
+    <h1>Honest&nbsp;Food</h1>
+    <p class="lede">Scan a barcode. Get an answer about your allergies you can actually check.</p>
 
-  <!-- Four answers, each with a word on it. Colour never carries the meaning alone here either. -->
-  <div class="verdicts">
-    <div class="verdict fits">Safe to eat</div>
-    <div class="verdict check">Take a closer look</div>
-    <div class="verdict avoid">Do not eat</div>
-    <div class="verdict unsure">Can’t say yet</div>
+    <div class="cta">
+      <a href="https://play.google.com/store/apps/details?id=app.honestfood.android">
+        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+             alt="Get it on Google Play">
+      </a>
+      <span class="aside">Free. No account, no sign-in.</span>
+    </div>
+
+    <!-- Named in a line rather than drawn as four coloured cards. The phone underneath already
+         shows one of these rendered by the app itself, and a flat imitation beside it only looks
+         like a worse version of the thing the page is advertising. -->
+    <p class="answers">
+      <span class="fits"><i></i>Safe to eat</span>
+      <span class="check"><i></i>Take a closer look</span>
+      <span class="avoid"><i></i>Do not eat</span>
+      <span class="unsure"><i></i>Can&rsquo;t say yet</span>
+    </p>
+
+    <div class="phone">
+      <img src="shots/02-avoid.png" alt="A verdict reading &ldquo;Do not eat&rdquo;, with the reasons underneath: contains your allergen, contains gelatine, may contain traces.">
+    </div>
   </div>
+</section>
 
-  <div class="shots">
-    <img src="shots/01-scan.png" alt="The scan screen, aimed at a barcode.">
-    <img src="shots/03-fits.png" alt="A verdict reading “Safe to eat”, with its reasons underneath.">
-    <img src="shots/02-avoid.png" alt="A verdict reading “Do not eat”, naming the ingredient responsible.">
-    <img src="shots/05-rules.png" alt="The rules screen, with allergies set to strict or normal.">
-  </div>
+<main class="wrap" id="how">
 
-  <section class="copy">
+  <section class="feature">
+    <div>
+      <h2>It shows you why</h2>
+      <p>Every answer comes with its reasons, in the packet&rsquo;s own words.
+         <strong>&ldquo;Contains gelatine&rdquo;</strong> is something you can check against the
+         label. &ldquo;Violates your rule&rdquo; is not.</p>
+      <p>Underneath sits the ingredient list, the nutrition, and which of your rules matched.</p>
+    </div>
+    <div class="shot">
+      <div class="phone">
+        <img src="shots/03-fits.png" alt="A verdict reading &ldquo;Safe to eat&rdquo; for a barista oat drink, with its nutrition underneath.">
+      </div>
+    </div>
+  </section>
 
-    <h2>It shows you why</h2>
-    <p>Every answer comes with its reasons, in the packet’s own words. <strong>“Contains gelatine”</strong>
-       is something you can check against the label. “Violates your rule” is not.</p>
+  <section class="feature flip">
+    <div>
+      <h2>Your rules, at two levels</h2>
+      <p>Allergies can be <strong>strict</strong> &mdash; counting &ldquo;may contain traces&rdquo;
+         &mdash; or normal. Diets: halal, kosher, vegetarian, vegan. And preferences that are notes
+         rather than rules: no palm oil, low sugar, low salt, no alcohol.</p>
+      <p>Keep a list for yourself and one for a child or a visiting relative. A scan is judged
+         against every list at once, so cooking for someone else does not mean scanning twice.</p>
+    </div>
+    <div class="shot">
+      <div class="phone">
+        <img src="shots/05-rules.png" alt="The rules screen, with allergies set to strict or normal and diets listed underneath.">
+      </div>
+    </div>
+  </section>
 
-    <h2>Your rules, at two levels</h2>
-    <p>Allergies can be strict — counting “may contain traces” — or normal. Diets: halal, kosher,
-       vegetarian, vegan. And preferences that are notes rather than rules: no palm oil, low sugar,
-       low salt, no alcohol.</p>
+  <section class="feature">
+    <div>
+      <h2>It stays on your phone</h2>
+      <p>There is no account, no sign-in, and no server of ours. Your rules, your history and the
+         cached product data live in a database on the phone.</p>
+      <p>Scanning asks <a href="https://world.openfoodfacts.org/">Open Food Facts</a> about the
+         barcode &mdash; <strong>the number, not who you are</strong>. Photos of ingredient lists
+         are read on the device, and go nowhere unless you ask them to.</p>
+    </div>
+    <div class="shot">
+      <div class="phone">
+        <img src="shots/01-scan.png" alt="The scan screen, aimed at a barcode, showing how many rules are armed.">
+      </div>
+    </div>
+  </section>
 
-    <h2>More than one person</h2>
-    <p>Keep a list for yourself and one for a child or a visiting relative. A scan is judged against
-       every list at once, so cooking for someone else does not mean scanning twice.</p>
-
-    <h2>It stays on your phone</h2>
-    <p>There is no account, no sign-in, and no server of ours. Your rules, your history and the
-       cached product data live in a database on the phone. Scanning asks
-       <a href="https://world.openfoodfacts.org/">Open Food Facts</a> about the barcode — the number,
-       not who you are. Photos of ingredient lists are read <strong>on the device</strong>.</p>
-
+  <section class="caveat">
     <h2>It can be wrong, and says so</h2>
     <p>The product data comes from a volunteer database that is sometimes out of date, and recipes
        change without anyone recording it. Where the ingredients are unclear, Honest Food says
-       <strong>“take a closer look”</strong> rather than “fits”. If you have an allergy, an
-       intolerance or a strict rule, the packet decides — read the ingredient list yourself.</p>
-
-    <p>Honest Food is not a medical device and is no substitute for medical advice.</p>
-
+       <strong>&ldquo;take a closer look&rdquo;</strong> rather than &ldquo;fits&rdquo;.</p>
+    <p>If you have an allergy, an intolerance or a strict rule, <strong>the packet decides</strong>.
+       Read the ingredient list yourself before you choose. Honest Food is not a medical device and
+       is no substitute for medical advice.</p>
   </section>
 
-  <footer>
+</main>
+
+<footer>
+  <div class="wrap">
     <a href="privacy.html">Privacy</a>
     <a href="mailto:contact@honestfood.app">contact@honestfood.app</a>
     <span>Not affiliated with Open Food Facts.</span>
-  </footer>
+  </div>
+</footer>
 
-</main>
 </body>
 </html>

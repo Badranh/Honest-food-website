@@ -24,35 +24,56 @@
     font-display: swap;
 }
 
-/* The app's own tokens, copied from core/ui/theme/HaloColors.kt.
-   Copied rather than generated: a stylesheet is not worth a build step, and these five values have
-   not moved since the design settled. If the palette is ever reworked, this is the file to follow. */
+/* The app's tokens, from core/ui/theme/HaloColors.kt. Copied rather than generated: a stylesheet is
+   not worth a build step, and these have not moved since the design settled. */
 :root {
     --bg: #F5EAD8;
     --surface: #EBDDC5;
+    --raised: #F9F4ED;
     --text: #201E1D;
     --muted: #645C50;
     --line: #DCD3C4;
     --accent: #C67139;
     --accent-deep: #8C491A;
+    --accent-soft: #FFE1D0;
     --sage: #7A8A5E;
+    --sage-soft: #E1EECC;
+    --sage-ink: #3D472B;
     --alarm: #8F2417;
-    --measure: 34rem;
+    --alarm-soft: #F3D9D4;
+
+    --measure: 36rem;
+    --page: 68rem;
+    --radius: 20px;
+    /* One phone size everywhere. A hero frame a little larger than the ones below reads as an
+       inconsistency rather than as emphasis, because every screenshot in them is the same shape. */
+    --phone: 272px;
+    --shadow: 0 1px 2px rgba(32, 30, 29, .04), 0 12px 34px -12px rgba(32, 30, 29, .18);
+    --shadow-lift: 0 2px 4px rgba(32, 30, 29, .05), 0 30px 60px -22px rgba(32, 30, 29, .32);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg: #201E1D;
+        --bg: #1B1917;
         --surface: #2E2B25;
+        --raised: #272420;
         --text: #F9F4ED;
-        --muted: #C0B6A5;
-        --line: #474238;
+        --muted: #B7AD9C;
+        --line: #3B362E;
         --accent: #F6A06B;
         --accent-deep: #FFC6A5;
+        --accent-soft: #402310;
+        --sage-soft: #2A331E;
+        --sage-ink: #D5E3BC;
+        --alarm-soft: #3A1512;
+        --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 12px 34px -12px rgba(0, 0, 0, .6);
+        --shadow-lift: 0 2px 4px rgba(0, 0, 0, .35), 0 30px 60px -22px rgba(0, 0, 0, .75);
     }
 }
 
 * { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
     margin: 0;
@@ -60,50 +81,213 @@ body {
     color: var(--text);
     font: 400 1.0625rem/1.65 "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
 }
 
-main { max-width: var(--measure); margin: 0 auto; padding: 0 1.5rem 5rem; }
+h1, h2, h3 {
+    font-family: "Caprasimo", Georgia, "Times New Roman", serif;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.06;
+    margin: 0;
+}
 
-h1, h2, h3 { font-family: "Caprasimo", Georgia, "Times New Roman", serif; font-weight: 400; letter-spacing: -0.01em; }
+p { margin: 0 0 1.1rem; }
 
-a { color: var(--accent-deep); }
+a { color: var(--accent-deep); text-underline-offset: 3px; }
 
-/* ---- landing ---------------------------------------------------------------------------- */
+.wrap { max-width: var(--page); margin: 0 auto; padding: 0 1.5rem; }
 
-.hero { text-align: center; padding: 4.5rem 1.5rem 2.5rem; }
-.hero img.mark { width: 96px; height: 96px; border-radius: 22px; display: block; margin: 0 auto 1.5rem; }
-.hero h1 { font-size: clamp(2.4rem, 8vw, 3.4rem); margin: 0 0 0.75rem; line-height: 1.05; }
-.hero p.lede { font-size: 1.2rem; color: var(--muted); margin: 0 auto; max-width: 26rem; }
+/* ---- header ------------------------------------------------------------------------------ */
 
-.badge { display: inline-block; margin-top: 2rem; }
-.badge img { height: 60px; }
+.top {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: saturate(180%) blur(14px);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s ease;
+}
+.top .wrap { display: flex; align-items: center; gap: .7rem; height: 62px; }
+.top img { width: 30px; height: 30px; border-radius: 8px; }
+.top .name { font-family: "Caprasimo", Georgia, serif; font-size: 1.15rem; }
+.top nav { margin-left: auto; display: flex; gap: 1.4rem; font-size: .95rem; }
+.top nav a { color: var(--muted); text-decoration: none; }
+.top nav a:hover { color: var(--text); }
 
-/* The four answers, in the app's colours — with a word on each, never colour alone. */
-.verdicts { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: 0.75rem; margin: 3.5rem 0; }
-.verdict { border-radius: 14px; padding: 1rem 0.75rem; text-align: center; font-weight: 600; font-size: 0.95rem; }
-.verdict.fits   { background: #E1EECC; color: #3D472B; }
-.verdict.check  { background: #FFE1D0; color: #643312; }
-.verdict.avoid  { background: #F3D6D2; color: var(--alarm); }
-.verdict.unsure { background: var(--surface); color: var(--muted); }
+/* ---- hero -------------------------------------------------------------------------------- */
 
-.shots { display: flex; gap: 1rem; overflow-x: auto; padding: 0 0 1rem; margin: 0 -1.5rem; scroll-snap-type: x mandatory; }
-.shots img { width: 62%; max-width: 260px; flex: 0 0 auto; border-radius: 18px; border: 1px solid var(--line); scroll-snap-align: center; }
-.shots::before, .shots::after { content: ""; flex: 0 0 1.5rem; }
+.hero {
+    position: relative;
+    /* `clip`, not `hidden`: the bloom below is a 1100px square anchored above the fold, and without
+       this it extends the document by its own height — a screen of empty page under the footer that
+       looks like the site failed to load. `clip` contains it without creating a scroll container. */
+    overflow: clip;
+    padding: clamp(3rem, 9vw, 6rem) 0 0;
+    text-align: center;
+}
 
-section.copy h2 { font-size: 1.5rem; margin: 3rem 0 0.5rem; }
-section.copy p { color: var(--muted); }
-section.copy strong { color: var(--text); font-weight: 600; }
+/* A warm bloom behind the wordmark rather than a flat field. Sits under everything and is
+   deliberately enormous and soft — a small gradient reads as a shape, a large one as light. */
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: -30% 50% auto;
+    translate: 50% 0;
+    width: min(120vw, 1100px);
+    aspect-ratio: 1;
+    background: radial-gradient(circle at 50% 40%,
+        color-mix(in srgb, var(--accent) 26%, transparent) 0%,
+        transparent 62%);
+    pointer-events: none;
+}
 
-footer { border-top: 1px solid var(--line); margin-top: 4rem; padding-top: 1.5rem; color: var(--muted); font-size: 0.95rem; display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.hero > * { position: relative; }
 
-/* ---- the privacy document --------------------------------------------------------------- */
+.hero .mark {
+    width: 84px; height: 84px; border-radius: 20px;
+    box-shadow: var(--shadow-lift);
+    margin-bottom: 1.75rem;
+}
 
-body.doc main { padding-top: 1rem; }
+.hero h1 { font-size: clamp(2.9rem, 9vw, 5rem); margin-bottom: 1.1rem; }
+
+.lede {
+    font-size: clamp(1.15rem, 2.6vw, 1.4rem);
+    color: var(--muted);
+    max-width: 27ch;
+    margin: 0 auto 2.2rem;
+    line-height: 1.45;
+}
+
+.cta { display: inline-flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.cta img { height: 56px; }
+.cta .aside { color: var(--muted); font-size: .95rem; }
+
+/* ---- phones ------------------------------------------------------------------------------ */
+
+/* A frame in CSS rather than a mockup image: the screenshots are rendered at exactly 1080×1920 by
+   the app's own composables, so a bezel drawn here stays sharp at any density and can follow the
+   colour scheme, which a baked-in PNG frame cannot. */
+.phone {
+    position: relative;
+    width: 100%;
+    max-width: var(--phone);
+    aspect-ratio: 1080 / 1920;
+    border-radius: 34px;
+    padding: 7px;
+    background: linear-gradient(160deg, #4a463f, #211f1c 55%);
+    box-shadow: var(--shadow-lift);
+    flex: 0 0 auto;
+}
+.phone img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 28px;
+    display: block;
+}
+/* The speaker slot. Small, dim, and enough to read the shape as a phone. */
+.phone::after {
+    content: "";
+    position: absolute;
+    top: 15px; left: 50%; translate: -50% 0;
+    width: 58px; height: 5px; border-radius: 3px;
+    background: rgba(0, 0, 0, .45);
+}
+
+.hero .phone { margin: clamp(2.5rem, 6vw, 4rem) auto 0; }
+
+/* ---- the four answers -------------------------------------------------------------------- */
+
+/* A line of text, not a row of coloured cards. Four filled rectangles competing with a screenshot
+   of the real thing is the website inventing a worse version of the app's own design — and the
+   phones below already show two of these answers rendered properly. */
+.answers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .5rem 1.4rem;
+    margin: clamp(2.5rem, 6vw, 3.5rem) auto 0;
+    color: var(--muted);
+    font-size: 1rem;
+}
+.answers span { display: inline-flex; align-items: center; gap: .55rem; }
+.answers i {
+    width: 9px; height: 9px; border-radius: 50%; display: inline-block;
+    /* The dot is decoration; the word beside it carries the meaning, as it does in the app. */
+}
+.answers .fits i   { background: var(--sage); }
+.answers .check i  { background: var(--accent); }
+.answers .avoid i  { background: var(--alarm); }
+.answers .unsure i { background: var(--muted); }
+
+/* ---- alternating feature rows ------------------------------------------------------------ */
+
+.feature {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    align-items: center;
+    padding: clamp(3rem, 8vw, 5rem) 0;
+}
+.feature + .feature { border-top: 1px solid var(--line); }
+.feature .shot { display: flex; justify-content: center; }
+.feature h2 { font-size: clamp(1.8rem, 4.5vw, 2.5rem); margin-bottom: 1rem; }
+.feature p { color: var(--muted); max-width: var(--measure); }
+.feature strong { color: var(--text); font-weight: 600; }
+
+@media (min-width: 46rem) {
+    .feature { grid-template-columns: 1fr 1fr; }
+    .feature.flip .shot { order: -1; }
+}
+
+/* ---- the honest bit ---------------------------------------------------------------------- */
+
+.caveat {
+    background: var(--raised);
+    border: 1px solid var(--line);
+    border-radius: 26px;
+    padding: clamp(1.75rem, 5vw, 2.75rem);
+    margin: clamp(3rem, 8vw, 5rem) 0;
+    box-shadow: var(--shadow);
+}
+.caveat h2 { font-size: clamp(1.6rem, 4vw, 2.1rem); margin-bottom: 1rem; }
+.caveat p { color: var(--muted); max-width: var(--measure); }
+.caveat p:last-child { margin-bottom: 0; }
+
+/* ---- footer ------------------------------------------------------------------------------ */
+
+footer {
+    border-top: 1px solid var(--line);
+    padding: 2.25rem 0 4rem;
+    color: var(--muted);
+    font-size: .95rem;
+}
+footer .wrap { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+footer a { color: var(--muted); }
+
+/* ---- the privacy document ---------------------------------------------------------------- */
+
+body.doc main { max-width: var(--measure); margin: 0 auto; padding: 1rem 1.5rem 5rem; }
 .doc-head { border-bottom: 1px solid var(--line); }
-.doc-head .back { display: block; max-width: var(--measure); margin: 0 auto; padding: 1.25rem 1.5rem; font-weight: 600; text-decoration: none; }
-body.doc section { padding: 2.5rem 0; }
+.doc-head .back {
+    display: block; max-width: var(--measure); margin: 0 auto;
+    padding: 1.25rem 1.5rem; font-weight: 600; text-decoration: none;
+    font-family: "Caprasimo", Georgia, serif; font-size: 1.15rem;
+}
+body.doc section { padding: 2.75rem 0; }
 body.doc section + section { border-top: 1px solid var(--line); }
-body.doc h1 { font-size: 2rem; margin: 0 0 1.5rem; }
-body.doc h2 { font-size: 1.25rem; margin: 2rem 0 0.5rem; }
-body.doc li { margin-bottom: 0.6rem; }
-body.doc .contact { color: var(--muted); font-size: 0.95rem; margin-top: 2rem; }
+body.doc h1 { font-size: 2.1rem; margin-bottom: 1.5rem; }
+body.doc h2 { font-size: 1.3rem; margin: 2.25rem 0 .6rem; }
+body.doc p, body.doc li { color: var(--muted); }
+body.doc li { margin-bottom: .6rem; }
+body.doc .contact { margin-top: 2rem; font-size: .95rem; }
+
+/* Nothing here needs to move for anyone who has asked it not to. */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; animation: none !important; }
+}
